@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Laboratorio Virtual</title>
+    <!---custom css link-->
+    <link rel="stylesheet" type="text/css" href="style.css">
+    
+    <!---boxicoins css link-->
+    <link rel="stylesheet" href="https://unpkg.com/boxicons@latest/css/boxicons.min.css">
+    <link href="https://cdn.jsdelivr.net/npm/remixicon@4.1.0/fonts/remixicon.css" rel="stylesheet"/>
+    
+    <!---google font link-->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">  
+</head>
+<body>
+  <!---header design-->
+  <header>
+    <a href="#" class="logo"><img src="fceialogo.png" height="70"></a>
+    <ul class="navbar">
+        <li><a href="index.html">Inicio</a></li>
+        <li><a href="lab.html">Laboratorio</a></li>
+        <li><a href="index.html#social">Contacto</a></li>
+    </ul>
+    <div class="h-right">
+        <a href="#">Seguinos</a>
+        <a href="https://www.instagram.com/fceia.unr?utm_source=ig_web_button_share_sheet&igsh=ZDNlZDc0MzIxNw=="><i class="ri-instagram-line"></i></a>
+        <a href="https://www.youtube.com/channel/UCdHktEx32A1DXbM-0Ot4KCQ"><i class="ri-youtube-line"></i></a>
+        <a href="https://www.linkedin.com/company/facultad-de-ciencias-exactas-ingenier-a-y-agrimensura/"><i class="ri-linkedin-box-line"></i></a>
+        <div class="bx bx-menu" id="menu-icon"></div>
+    </div>
+  </header>
+  <section class="home2">
+  <form action="#">
+    <div id="data-entry" class="data-entry">
+      <div class="row">
+        <div class="cell">
+          <button type="button" onclick="getValue()"  id="btn-1" class="btn-1">Inicio/Pausa</button>
+        </div>
+        <div class="cell">
+          <button type="button" onclick="Restart()" class="btn-1">Reiniciar</button>
+        </div>   
+      </div>
+      <div class="row">
+          <div class="cell">
+            <label for="A1" class="">A1 [m] </label>
+            <input type="range" min="-0.04" max="0.04" id="A1" class="slider">
+          </div>
+          <div class="cell">
+            <label for="A2">A2 [m] </label>
+            <input type="range" min="-0.04" max="0.04" value="50" id="A2" class="slider">
+          </div>
+      </div>        
+      
+      <div class="row">
+        <div class="cell">
+          <label for="k"> k [N/m2] </label>
+          <input class="input" type="text" id="k" placeholder="Ingese la constante k [N/m2]" required>
+        </div>
+        <div class="cell">
+          <label for="m">m [kg] </label>
+          <input class="input" type="text" id="m" placeholder="Ingese la masa [kg]" required>
+        </div>
+      </div>
+    </div>
+  </form>
+  <div class="simulation">
+    <canvas id="myCanvas"></canvas>
+  </div>
+</section>
+  <!-- Codigo de simulacion del pendulo -->
+  <script src="main.js"> </script>
+  <!---custom js file link-->
+  <script src="script.js"></script>
+</body>
+</html>

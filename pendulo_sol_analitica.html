@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
+  <link rel="stylesheet" href="style.css">
+  <title>Simulacion</title>
+  
+</head>
+<body>
+  <div>
+    <nav class="navbar navbar-expand-lg bg-body-tertiary ">
+      <div class="logo">
+        <a href="#"> <img src="fceia.png"></a>
+      </div>
+      <div class="container-fluid">
+        <a class="navbar-brand" href="home.html">Inicio</a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNav">
+          <ul class="navbar-nav">
+            <li class="nav-item">
+              <a class="nav-link active" aria-current="page" href="pendulo_sol_analitica.html">Laboratorios</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="#">Apuntes</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="#">Videos Laboratiorios</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link disabled" aria-disabled="true">Disabled</a>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </nav>
+  </div>
+  <h1 class="centrado">Simulación Péndulo Acoplado</h1>
+  <div id="controles" class="container my-7">
+    <button type="button" class="btn btn-secondary" onclick="InicioPausa()">Inicio/Pausa</button>
+    <button type="button" class="btn btn-secondary" onclick="Restart()">Reiniciar</button>
+  </div>
+  
+  <canvas id="myCanvas" style="border:2px solid"></canvas>
+
+
+  <div id="input-container">
+    <input type="number" id="numberInput" placeholder="Enter a number">
+    <button id="submitButton">Submit</button>
+  </div>
+  <!-- Codigo de simulacion del pendulo -->
+  <script src="main.js"> </script>
+  <p>HolA VAMOS A VER COMO DESARROLLAR</p>
+
+  
+  <footer class="bg-body-tertiary text-center text-lg-start">
+    <!-- Grid container -->
+    <div class="container p-4">
+      <!--Grid row-->
+      <div class="row">
+        <!--Grid column-->
+        <div class="col-lg-7 col-md-6 mb-4 mb-md-0">
+          <h5 class="text-uppercase">CÁTEDRA FÍSICA II</h5>
+          <p class=" text-justify">
+            Las simulaciones son parte de un proyecto de adscripción el cual hace foco en oscilaciones acopladas. El fin de este trabajo es
+            desarrollar herramientas para mejorar la comprensión de este fenómeno,
+             facilitando el aprendizaje y ofreciendo una herramienta práctica en el estudio de oscilaciones en sistemas complejos.
+          </p>
+        </div>
+        <!--Grid column-->
+        <div class="col-lg-3 col-md-6 mb-4 mb-md-0">
+          <img src="unr.png" height="70"><br>
+        </div>
+  
+        <!--Grid column-->
+        <div class="col-lg-1 col-md-6 mb-4 mb-md-0">                
+            <img src="fceia.png" height="70">
+          </div>
+          
+        </div>
+        <!--Grid column-->
+      </div>
+      <!--Grid row-->
+    </div>
+    <!-- Grid container -->
+  
+    <!-- Copyright -->
+    <div class="text-center p-3" style="background-color: rgba(0, 0, 0, 0.05);">
+      © 2023 Copyright - All rights reserved 
+    </div>
+    <!-- Copyright -->
+  </footer>
+</body>
+</html>
