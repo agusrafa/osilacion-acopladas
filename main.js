@@ -1,11 +1,3 @@
-//---------------------------------------------------------------------------
-//---------------------------------------------------------------------------
-//---------------------------------------------------------------------------
-//--------------------------------------------------------------------------
-
-
-
-
 //canvas configuration
 var canvas =document.getElementById("myCanvas");
 var c= canvas.getContext("2d");
@@ -13,10 +5,15 @@ var c= canvas.getContext("2d");
 //Resize canvas
 // canvas.width = window.innerWidth-20; //redefinimos el tamaño del canvas con algun margen
 // canvas.height= window.innerHeight-100;
-canvas.width = window.innerWidth-20; //redefinimos el tamaño del canvas con algun margen
-canvas.height= window.innerHeight-100;
+if(window.innerWidth-20>1500){
+    canvas.width = 1500;
+}else{
+    canvas.width = window.innerWidth-20; //redefinimos el tamaño del canvas con algun margen
+}
+
+canvas.height= canvas.width/2;
 //Coordinates transformation from canvas coordinates to simulation coordinates 
-var simMinWidth =1;//ancho del canvas en metros
+var simMinWidth = 1;//ancho del canvas en metros
 var cScale =Math.min(canvas.width,canvas.height)/simMinWidth; //factor que sirve para escalar valores a nuestra simulacion
 var simWidth = canvas.width/cScale;
 var simHeight = canvas.height/cScale;
@@ -34,62 +31,76 @@ function cY(pos)
 //---------------------------------------------------------------------------
 //---------------------------------------------------------------------------
 //scene
+var inicio=false;
+// function InicioPausa(){
+//   if(inicio==true){
+//     inicio=false;
+//   }else{
+//     inicio=true;
+//     tiempo=t0;
+//   }
+//   return inicio;
+// }
 var l=0.4; //lenght of the pendulums (En metros)
 var g=9.81; //(m/s2)
 var h=1/60.0; //incremento h
-var A0=0,A1=0.04;//Amplitud que se le da a las masas (A0=masa 1 , A1=masa 2)  (en metros)
-var k=10,t0=0.0,sep=0.3,q=1;  
+var A0=0.0,A1=0.04;//Amplitud que se le da a las masas (A0=masa 1 , A1=masa 2)  (en metros) A1=0.04
+// const k=document.getElementById("k").value;
+const k=15;
+var t0=0.0,sep=0.3,q=1;  
 var eq1=0.2,eq2=eq1+sep;//posicion de equilibrio de cada masa, se define como el centro sobre el cual oscila
 var x1=eq1+A0,x2=eq2+A1,v1=0.0,v2=0.0,m=5,r=0.025,y=0.5; //condiciones de borde
 var mass_1 ={
             m:m,//en kg
-            radio: r, //5 cm de radio
+            radio: r, //en m
             pos : {x: x1, y: y}, //en m
             v: v1,
           };
 var mass_2 ={
             m:m,//en kg
-            radio: r, //5 cm de radio
+            radio: r, //en m 
             pos : {x: x2, y: y}, //en m
             v: v2,
           };
 var arm1={
-            pos_inicio : {x: eq1, y: mass_1.pos.y + l}, //en cm (parte de arriba del pendulo)
-            pos_final : {x: x1, y: mass_1.pos.y}, //en cm (parte de abajo del pendulo)
+            pos_inicio : {x: eq1, y: mass_1.pos.y + l}, //en m (parte de arriba del pendulo)
+            pos_final : {x: x1, y: mass_1.pos.y}, //en m (parte de abajo del pendulo)
           };
 var arm2={
-            pos_inicio : {x: eq2, y: mass_2.pos.y + l}, //en cm (parte de arriba del pendulo)
-            pos_final : {x: x2, y: mass_2.pos.y}, //en cm (parte de abajo del pendulo)
+            pos_inicio : {x: eq2, y: mass_2.pos.y + l}, //en m (parte de arriba del pendulo)
+            pos_final : {x: x2, y: mass_2.pos.y}, //en m (parte de abajo del pendulo)
           };
 var path1=[],path2=[],path3=[],path4=[];
+// var omega1,omega2,omega_dif,omega_sum;
 var omega1=Math.sqrt(g/l);
 var omega2=Math.sqrt(g/l+(2*k)/m);
 var omega_sum=(omega1+omega2)/2;
 var omega_dif=(omega1-omega2)/2;
-var inicio=false;
-function InicioPausa(){
-  if(inicio==true){
-    inicio=false;
-  }else{
-    inicio=true;
-  }
-  return inicio;
-}
-function StartValue(){
-l=0.4; //lenght of the pendulums (En metros)
-A0=0;
-A1=0.04;//Amplitud que se le da a las masas (A0=masa 1 , A1=masa 2)  (en metros)
-k=10.0;
-sep=0.3;  
-eq2=eq1+sep;
-x1=eq1+A0;
-x2=eq2+A1;
-v1=0.0;
-v2=0.0;
-m=5;
-r=0.025;
-y=0.5; //condiciones de borde
-}
+
+// function getValue(){
+//   const kel=document.getElementById("k").value;
+//   const k=kel.value;
+//   var omega1=Math.sqrt(g/l);
+//   var omega2=Math.sqrt(g/l+(2*k)/m);
+//   var omega_sum=(omega1+omega2)/2;
+//   var omega_dif=(omega1-omega2)/2;
+// }
+
+// function StartValue(){
+// l=0.4; //lenght of the pendulums (En metros)
+// A0=0;
+// A1=0.04;//Amplitud que se le da a las masas (A0=masa 1 , A1=masa 2)  (en metros)
+// k=10.0;
+// sep=0.3;  
+// eq2=eq1+sep;
+// x1=eq1+A0;
+// x2=eq2+A1;
+// v1=0.0;
+// v2=0.0;
+// m=5;
+// r=0.025;
+// y=0.5; //condiciones de borde
+// }
 function Restart(){
   t0=0;
   path1=[];
@@ -177,6 +188,8 @@ c.stroke();
 // Log the x0 coordinate (for debugging or tracking)
 
 }
+
+
 //x1,y1 -> initial point of the arrow
 //x2,y2 -> final point of the arrow
 function arrow(x1, y1, x2, y2, w) {
@@ -208,14 +221,15 @@ c.lineTo(xSp2, ySp2);                 // Go to the other corner of the arrowhead
 c.closePath();                        // Close the path
 c.fill();                             // Fill the arrowhead
 }
+
+
 // y0,x0= inicio cuadro
 function diagram(x0, y0,masa1,path,eq) {
-var width = 250, height = 100; // Dimensions in pixels
+var width = cX(0.4), height = width/3; // Dimensions in pixels
 var pixT = 2 / (20 * h); // Conversion factor for horizontal axis --> x_graph =pixT * X_function(t)
 var dt=width*4.5/5+x0;
-var eraseX=x0;
 var A= Math.max(Math.abs(A0),Math.abs(A1));
-var pixY = 20*4/A ; // Conversion factor for vertical axis --> y_graph =pixY* y_function(t)
+var pixY = height/(A*1.25); // Conversion factor for vertical axis --> y_graph =pixY* y_function(t)
 var t=[t0];  
 // Draw Vertical axis
 arrow(x0, y0 + height, x0 , y0 - height);
@@ -258,14 +272,14 @@ c.stroke();
 
 
 //Graficas de velocidad
-// y0,x0= inicio cuadro
+//y0,x0= inicio cuadro
 function diagram1(x0, y0,masa1,path,eq) {
-var width = 250, height = 100; // Dimensions in pixels
+var width = cX(0.4), height = width/3; // Dimensions in pixels
 var pixT = 2 / (20 * h); // Conversion factor for horizontal axis --> x_graph =pixT * X_function(t)
 var dt=width*4.5/5+x0;
-var eraseX=x0;
 var A= 0.2;
-var pixY = 20*4/A ; // Conversion factor for vertical axis --> y_graph =pixY* y_function(t)
+
+var pixY = height/(A*1.25) ; // Conversion factor for vertical axis --> y_graph =pixY* y_function(t)
 var t=[t0];  
 // Draw Vertical axis
 arrow(x0, y0 + height, x0 , y0 - height);
@@ -321,14 +335,14 @@ spring(arm1.pos_final.x,arm1.pos_final.y,arm2.pos_final.x,arm1.pos_final.y);
 //Diagrama de posicion
 //Diagrama masa 1
 c.font = "20px arial";
-c.fillText("Masa 1 (izquierda)", 450, 30);
-diagram(500,150,mass_1.pos.x,path1,eq1);
-diagram1(850,150,mass_1.v,path3,0);
+c.fillText("Masa 1 (izquierda)", cX(arm1.pos_inicio.x+0.5), cY(0.95));
+diagram(cX(arm1.pos_inicio.x+0.6),cY(0.8),mass_1.pos.x,path1,eq1);
+diagram1(cX(arm1.pos_inicio.x+1.1),cY(0.8),mass_1.v,path3,0);
 //Diagrama masa 2
 c.font = "20px arial";
-c.fillText("Masa 2 (derecha)", 450, 330);
-diagram(500,450,mass_2.pos.x,path2,eq2);
-diagram1(850,450,mass_2.v,path4,0);
+c.fillText("Masa 2 (derecha)", cX(arm1.pos_inicio.x+0.5), cY(0.55));
+diagram(cX(arm1.pos_inicio.x+0.6),cY(0.4),mass_2.pos.x,path2,eq2);
+diagram1(cX(arm1.pos_inicio.x+1.1),cY(0.4),mass_2.v,path4,0);
 // Draw the pendulum's A mass
 c.beginPath();
 c.strokeStyle = 'black';
@@ -345,11 +359,12 @@ c.stroke();
 //Base
 c.beginPath();
 c.strokeStyle = 'black';
-c.fillRect(cX(arm1.pos_inicio.x-0.1),cY(arm1.pos_inicio.y+0.01),cX(arm2.pos_inicio.x), 10);
+// c.fillRect(cX(arm1.pos_inicio.x-0.1),cY(arm1.pos_inicio.y+0.01),cX(arm2.pos_inicio.x), 10);
+c.fillRect(cX(arm1.pos_inicio.x-0.1),cY(arm1.pos_inicio.y+0.01),cX(arm2.pos_inicio.x-arm1.pos_inicio.x+0.2), 10);
 
 // Draw the pendulum's B mass
 c.beginPath();
-c.strokeStyle = 'black';
+c.strokeStyle = 'red';
 c.arc(cX(mass_2.pos.x), cY(mass_2.pos.y), mass_2.radio*cScale, 0, Math.PI * 2);
 c.closePath();
 c.fill();
@@ -359,9 +374,6 @@ c.strokeStyle = 'black';
 c.moveTo(cX(arm2.pos_inicio.x), cY(arm2.pos_inicio.y));
 c.lineTo(cX(arm2.pos_final.x), cY(arm2.pos_final.y));
 c.stroke();
-
-
-
 //...............................................................................................
 //...............................................................................................
 }
@@ -460,12 +472,15 @@ t0 += h;
 }
 // }
 
-
-
 //make browser to call new state
-function update() {
+function update(){
+
 simulate();
 draw();
-requestAnimationFrame(update);
+// if(inicio==true){
+  requestAnimationFrame(update);
+// }
+
 }
+
 update();
